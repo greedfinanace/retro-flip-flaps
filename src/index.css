@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500&family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: 'Geist', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Space Mono', monospace;
+    --font-flap: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+    --background: 0 0% 98%;
+    --foreground: 0 0% 9%;
+    --surface: 0 0% 100%;
+    --surface-elevated: 0 0% 97%;
+    --surface-muted: 0 0% 95%;
+    --surface-strong: 0 0% 8%;
+    --board-bg: 0 0% 12%;
+    --flap-bg: 0 0% 6%;
+    --flap-border: 0 0% 20%;
+    --flap-text: 0 0% 100%;
+    --border: 0 0% 85%;
+    --page-top: 0 0% 99%;
+    --page-bottom: 0 0% 94%;
+    --page-glow: 0 0% 100%;
+    --page-glow-alpha: 0.16;
+    color-scheme: light;
+  }
+
+  :root[data-theme='dark'] {
+    --background: 0 0% 7%;
+    --foreground: 0 0% 96%;
+    --surface: 0 0% 11%;
+    --surface-elevated: 0 0% 14%;
+    --surface-muted: 0 0% 9%;
+    --surface-strong: 0 0% 94%;
+    --border: 0 0% 20%;
+    --page-top: 0 0% 11%;
+    --page-bottom: 0 0% 5%;
+    --page-glow-alpha: 0.08;
+    color-scheme: dark;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply min-h-screen bg-background font-sans text-foreground antialiased;
+    background-image:
+      radial-gradient(circle at top, hsl(var(--page-glow) / var(--page-glow-alpha)), hsl(var(--page-glow) / 0) 45%),
+      linear-gradient(180deg, hsl(var(--page-top)), hsl(var(--page-bottom)));
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  button,
+  input {
+    @apply font-sans;
+  }
+
+  ::selection {
+    background: hsl(var(--foreground) / 0.12);
+  }
+}
+
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  .rotateX-180 {
+    transform: rotateX(180deg);
+  }
+
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .flap-glyph {
+    font-variant-ligatures: none;
+    font-feature-settings: 'liga' 0, 'calt' 0, 'tnum' 1;
+    text-rendering: geometricPrecision;
+  }
+}
