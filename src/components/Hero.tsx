@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Check, Copy, Github, Linkedin, Wallet } from 'lucide-react';
+import { AdUnit } from './AdUnit';
 import { type QuoteSpec } from '../utils/flap';
 import { FlapBoard } from './flap/FlapBoard';
 
@@ -230,10 +231,7 @@ export function Hero({
               </div>
             </div>
 
-            <div
-              id="support"
-              className="rounded-[1.2rem] border border-border/60 bg-surface p-4"
-            >
+            <div id="support" className="rounded-[1.2rem] border border-border/60 bg-surface p-4">
               <p className="text-xs font-medium uppercase tracking-[0.24em] text-foreground/45">
                 Support & Links
               </p>
@@ -317,6 +315,10 @@ export function Hero({
 
         <div id="board" className="mt-14 w-full">
           <FlapBoard quote={currentQuote} motionSpeed={tileSpeed} />
+        </div>
+
+        <div className="mt-8 w-full max-w-5xl">
+          <AdUnit unitId="2432002" />
         </div>
       </div>
     </section>
