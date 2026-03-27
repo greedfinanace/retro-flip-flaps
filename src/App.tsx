@@ -1,6 +1,7 @@
-import { useMemo, useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Hero } from './components/Hero';
 import { Navbar } from './components/Navbar';
+import { usePairing } from './hooks/usePairing';
 import { audioController } from './lib/AudioController';
 import { CUSTOM_MESSAGE_CHAR_LIMIT, QUOTES, createCustomQuoteSpec } from './utils/flap';
 
@@ -48,6 +49,17 @@ export default function App() {
   const [customMessageDraft, setCustomMessageDraft] = useState('');
   const [activeCustomMessage, setActiveCustomMessage] = useState('');
 
+  const pairing = usePairing({
+    onRemoteControl: ({ message, speed }) => {
+      const normalizedMessage = message.replace(/\s+/g, ' ').trim().slice(0, CUSTOM_MESSAGE_CHAR_LIMIT);
+
+      setTileSpeed(clamp(speed, SPEED_MIN, SPEED_MAX));
+      setCustomMessageDraft(normalizedMessage);
+      setActiveCustomMessage(normalizedMessage);
+      void audioController.resume();
+    },
+  });
+
   const currentQuote = useMemo(
     () => (activeCustomMessage ? createCustomQuoteSpec(activeCustomMessage) : QUOTES[quoteIndex]),
     [activeCustomMessage, quoteIndex],
@@ -90,6 +102,17 @@ export default function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!pairing.canSend) {
+      return;
+    }
+
+    pairing.sendControlState({
+      message: activeCustomMessage,
+      speed: tileSpeed,
+    });
+  }, [activeCustomMessage, tileSpeed, pairing.canSend]);
+
   const handleCustomMessageSubmit = () => {
     const normalized = customMessageDraft.replace(/\s+/g, ' ').trim();
 
@@ -115,6 +138,7 @@ export default function App() {
           customMessage={customMessageDraft}
           customMessageLimit={CUSTOM_MESSAGE_CHAR_LIMIT}
           customMessageActive={Boolean(activeCustomMessage)}
+          pairing={pairing}
           onTileSpeedChange={(value) => setTileSpeed(clamp(value, SPEED_MIN, SPEED_MAX))}
           onCustomMessageChange={(value) => setCustomMessageDraft(value.slice(0, CUSTOM_MESSAGE_CHAR_LIMIT))}
           onCustomMessageSubmit={handleCustomMessageSubmit}

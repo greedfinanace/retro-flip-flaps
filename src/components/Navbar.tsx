@@ -6,7 +6,7 @@ type NavbarProps = {
   onToggleTheme: () => void;
 };
 
-const githubProfileHref = 'https://github.com/greedfinanace?tab=repositories';
+const githubProfileHref = 'https://github.com/greedfinanace/retro-flip-flaps';
 
 export function Navbar({ theme, onToggleTheme }: NavbarProps) {
   const isDark = theme === 'dark';
@@ -27,6 +27,7 @@ export function Navbar({ theme, onToggleTheme }: NavbarProps) {
           {[
             ['Board', '#board'],
             ['Customize', '#customize'],
+            ['Pairing', '#pairing'],
             ['Support', '#support'],
           ].map(([label, href]) => (
             <a
@@ -56,7 +57,7 @@ export function Navbar({ theme, onToggleTheme }: NavbarProps) {
             className="inline-flex items-center gap-2 rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
           >
             <Github className="h-4 w-4" />
-            View GitHub
+            View Repo
           </a>
         </div>
       </div>
